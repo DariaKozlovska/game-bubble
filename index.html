@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gra bąbelkowa</title>
+    <style>
+        .kolko {
+            width: 50px;
+            height: 50px;
+            border-radius: 100px;
+            /* border: 1px solid white; */
+            border: 1px solid black;
+        }
+        h2{
+            color: white;
+            text-align: center;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body id="body">
+    <div class="calosc"></div>
+    <script> 
+        var t = null;
+        var w = null;
+        var h = null;
+        var interwal = setInterval(newObject, time());
+        var i = 0;
+        var j = 0;
+        var a = 0;
+
+        function time(){
+            t = Math.floor(Math.random() * 2000 + 100);
+            return t;
+        }
+
+        function x(){
+            let windoww = window.innerWidth;
+            windoww -= 50;
+            w = Math.floor(Math.random()*windoww);
+            return w;
+        }
+
+        function y(){
+            let windowh = window.innerHeight;
+            windowh -= 50;
+            h = Math.floor(Math.random()* windowh);
+            return h;
+        }
+
+        function kolor(){
+            let kolor = Math.floor(Math.random()*16777215).toString(16);
+            while(kolor.length < 6){
+                kolor += "0"
+            }
+            return kolor;
+        }
+
+        function newObject(){
+            var kolko = document.createElement("div");
+            kolko.classList.add("kolko");
+            let id = 'kolko' + i; 
+            kolko.setAttribute('id', id);
+            i++;
+            kolko.style.left = x() +'px';
+            kolko.style.top = y() +'px';
+            kolko.style.position="absolute";
+            kolko.style.visibility="visible";
+            kolko.style.backgroundColor="#"+kolor();
+            document.querySelector(".calosc").appendChild(kolko);
+            clearInterval(interwal);
+            (i< 10) ? interwal = setInterval(newObject, time()) : clearInterval(interwal);
+
+            document.getElementById(id).addEventListener('mouseover', (event) => {
+                let k = document.getElementById(id);
+                if (j < 5){
+                    k.style.backgroundColor='#'+kolor();
+                    k.style.left=x()+'px';
+                    k.style.top= y()+'px';
+                    j++;
+                } else {
+                   k.style.visibility="hidden";
+                }
+                a++;
+                if(a == 15){
+                    document.getElementById("body").style.backgroundColor="black";
+                    document.getElementById("body").innerHTML="<h2>Gra zakończona</h2>";
+                }
+            })
+            
+        }
+
+    </script>
+</body>
+</html>
